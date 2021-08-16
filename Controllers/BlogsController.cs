@@ -10,6 +10,7 @@ using WebBlog.Models;
 using WebBlog.Services.Iterfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using WebBlog.Enums;
 
 namespace WebBlog.Controllers
 {
@@ -27,6 +28,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Blogs.Include(b => b.BlogUser).ToListAsync());
@@ -52,7 +54,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs/Create
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id");
