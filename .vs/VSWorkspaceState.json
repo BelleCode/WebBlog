@@ -4,8 +4,11 @@
     "\\Data",
     "\\Data\\Migrations",
     "\\Views",
-    "\\Views\\Shared"
+    "\\Views\\Shared",
+    "\\wwwroot",
+    "\\wwwroot\\css",
+    "\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\CSharp-WebBlog.sln",
   "PreviewInSolutionExplorer": false
 }
