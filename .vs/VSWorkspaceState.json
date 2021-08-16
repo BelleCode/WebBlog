@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\Data",
-    "\\Data\\Migrations"
+    "\\Data\\Migrations",
+    "\\Views",
+    "\\Views\\Shared"
   ],
-  "SelectedNode": "\\Program.cs",
+  "SelectedNode": "\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
