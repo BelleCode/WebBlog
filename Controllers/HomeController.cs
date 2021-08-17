@@ -31,19 +31,16 @@ namespace WebBlog.Controllers
             var pageNumber = page ?? 1;
             var pageSize = 5;
 
-            //var blogs = _context.Blogs.Where
-            //    (b => b.Posts.Any
-            //    (p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady))
-            //    .OrderByDescending(b => b.Created)
-            //    .ToPagedListAsync(pageNumber, pageSize);
+            var blogs = _context.Blogs
+                .Include(b => b.BlogUser)
+                .OrderByDescending(b => b.Created)
+                .ToPagedListAsync(pageNumber, pageSize);
 
-            //return view(await blogs);
+            return View(await blogs);
 
-            var productionReadyPosts = _context.Blogs.Where(b => b.Posts.Any(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady));
-            var orderedPosts = productionReadyPosts.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
-
-            return View(await orderedPosts);
-            //return View(await _context.Blogs.Include(p => p.Posts).ToListAsync());
+            //var productionReadyPosts = _context.Blogs.Where(b => b.Posts.Any(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady));
+            //var orderedPosts = productionReadyPosts.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+            //return View(await orderedPosts);
         }
 
         private object OrderByDescending(Func<object, object> p)

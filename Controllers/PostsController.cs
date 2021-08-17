@@ -36,7 +36,7 @@ namespace WebBlog.Controllers
             return View(await _context.Posts.ToListAsync());
         }
 
-        // GET: Posts/Details/5
+        // GET: Posts/Details/Blog Posts Index
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -72,7 +72,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-controller="Posts"><i class="fas fa-blog fa-fw me-2"></i>Blog Post</a>
+                        <a class="nav-link" asp-action="Index" asp-controller="Posts">
+                            <i class="fas fa-blog fa-fw me-2">
+                            </i> Blog Post
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://keen-jackson-a4318f.netlify.app/"><i class="fas fa-user fa-fw me-2"></i>About Me</a>
@@ -126,6 +129,8 @@
                 </div>
             </nav>
         </header>*@
+
+    @*===== MAIN =====*@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -138,7 +143,7 @@
         </div>
     </footer>
 
-    @*Javascript Files*@
+    @*===== Javascript Files =====*@
     <script src="~/js/all.min.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
