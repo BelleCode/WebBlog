@@ -11,6 +11,7 @@ using WebBlog.Services.Iterfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using WebBlog.Enums;
+using X.PagedList;
 
 namespace WebBlog.Controllers
 {
@@ -29,8 +30,15 @@ namespace WebBlog.Controllers
 
         // GET: Blogs
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            // using Null coalecing operator
+
+            var pageNumber = page ?? 1;
+            var pageSize = 4;
+
+            var blogs = _context.Blogs.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+
             return View(await _context.Blogs.Include(b => b.BlogUser).ToListAsync());
         }
 

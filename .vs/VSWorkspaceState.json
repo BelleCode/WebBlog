@@ -4,11 +4,12 @@
     "\\Data",
     "\\Data\\Migrations",
     "\\Views",
+    "\\Views\\Home",
     "\\Views\\Shared",
     "\\wwwroot",
     "\\wwwroot\\css",
     "\\wwwroot\\js"
   ],
-  "SelectedNode": "\\CSharp-WebBlog.sln",
+  "SelectedNode": "\\Views\\Home\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

@@ -7,6 +7,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using WebBlog.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System;
+using X.PagedList;
 
 namespace WebBlog.Controllers
 {
@@ -23,9 +26,29 @@ namespace WebBlog.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _context.Blogs.Include(p => p.Posts).ToListAsync());
+            var pageNumber = page ?? 1;
+            var pageSize = 5;
+
+            //var blogs = _context.Blogs.Where
+            //    (b => b.Posts.Any
+            //    (p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady))
+            //    .OrderByDescending(b => b.Created)
+            //    .ToPagedListAsync(pageNumber, pageSize);
+
+            //return view(await blogs);
+
+            var productionReadyPosts = _context.Blogs.Where(b => b.Posts.Any(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady));
+            var orderedPosts = productionReadyPosts.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+
+            return View(await orderedPosts);
+            //return View(await _context.Blogs.Include(p => p.Posts).ToListAsync());
+        }
+
+        private object OrderByDescending(Func<object, object> p)
+        {
+            throw new NotImplementedException();
         }
 
         public IActionResult Privacy()

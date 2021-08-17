@@ -24,6 +24,11 @@ namespace WebBlog.Controllers
             _imageService = imageService;
         }
 
+        private Blog f(Post p)
+        {
+            return p.Blog;
+        }
+
         // GET: Posts
         public async Task<IActionResult> Index()
         {
