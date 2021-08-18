@@ -63,6 +63,38 @@
     </div>
 </div>
 
+@*===== THis will be reserved for the new Tags section ======*@
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            <label class="control-label">Manage Tags</label>
+        </div>
+    </div>
+    <div class="row">
+        @*Col 1: Input and the two buttons*@
+        <div class="col">
+            <div class="row mb-2">
+                <div class="col">
+                    <input id="tagEntry" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark btn-block">Add</button>
+                </div>
+                <div class="col">
+                    <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark btn-block">Delete</button>
+                </div>
+            </div>
+        </div>
+        @*col 2: Select Elements*@
+        <div class="col">
+            <select name="TagValues" id="TagList" multiple>
+            </select>
+        </div>
+    </div>
+</div>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

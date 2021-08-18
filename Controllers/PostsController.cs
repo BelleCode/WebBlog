@@ -145,7 +145,7 @@ namespace WebBlog.Controllers
                             //I have determined that the Title results in a duplicate Slug...
                             ModelState.AddModelError("Title", "The Title you entered cannot be used please try again");
                             ModelState.AddModelError("", "There was an error related to the Title...");
-
+                            //ViewData["TagValues"] = string.Join(",", tagValues);
                             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name", post.BlogId);
                             return View(post);
                         }

@@ -44,16 +44,77 @@
                 <span asp-validation-for="ReadyStatus" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Image" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control">
+                <input type="file" asp-for="Image" class="form-control-file">
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Default file input example</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+            @*<div class="form-group pb-10">
+                    <div class="row mb-sm-2">
+                        <div class="col">
+                            <label class="control-label">Manage Tags</label>
+                        </div>
+                    </div>
+                    <div class=" row mb-sm-2 ">
+                        <div class="col">
+                            <div class="row">
+                                <input type="text" class="form-control" id="TagEntry" placeholder="Enter Tag" />
+                            </div>
+                            <div class="row mb-sm-2">
+                                <div class="col">
+                                    <button name="AddTag" button type="button" class="btn btn-primary btn-sm m-2">Add</button>
+                                </div>
+                                <div class="col">
+                                    <button name="DeleteTag" button type="button" class="btn btn-primary btn-sm m-2">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col d-grid gap-2">
+                            <select button class="btn-block btn btn-primary btn-group-vertical " type="button" name="TagValues" id="TagList" multiple></select>
+                        </div>
+                    </div>
+                </div>*@
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group gap-md-5">
+                <button type="submit" value="Create" class="btn btn-block btn-sm btn-dark"></button>
             </div>
         </form>
+    </div>
+</div>
+
+@*===== This will be reserved for the new Tags section ======*@
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            <label class="control-label">Manage Tags</label>
+        </div>
+    </div>
+    <div class="row">
+        @*Col 1: Input and the two buttons*@
+        <div class="col">
+            <div class="row mb-2">
+                <div class="col">
+                    <input id="tagEntry" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark btn-block">Add</button>
+                </div>
+                <div class="col">
+                    <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark btn-block">Delete</button>
+                </div>
+            </div>
+        </div>
+        @*col 2: Select Elements*@
+        <div class="col">
+            <select name="TagValues" id="TagList" multiple>
+            </select>
+        </div>
     </div>
 </div>
 
@@ -74,3 +135,46 @@
         });
     </script>
 }
+
+@*===== Tags section.. =====*@
+<script>
+
+    let index = 0;
+
+    function AddTag() {
+        // Get a reference to a tag input
+        let tagEntry = document.getElementById("tagEntry");
+
+        // Create an option based on the tag text using the tagEntry
+        let newTag = new Option(tagEntry.value, tagEntry.value);
+
+        // Add the new Option to the TagList
+        document.getElementById("TagList").options[index++] = newTag;
+
+        // clears out the tag text to make way for the next tag
+        tagEntry.value = "";
+        return true;
+    }
+
+    function DeleteTag() {
+        //
+        let tagList = document.getElementById("TagList");
+
+        if (!tagList) return false;
+
+        // Make sure that one of the entry is selected
+        if (tagList.selectedIndex == -1) {
+            alert("Choose a tag before pressing delete!")
+
+            return true;
+        }
+
+        // Delete the selected Tag
+        if (tagList.selectedIndex >= 0) {
+
+            //TODO: delete all tags that are selected
+            tagList.options[tagList.selectedIndex] = null;
+        }
+        return true;
+    }
+</script>
