@@ -6,7 +6,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
-<h1>Create a Post</h1>
+<h1>Create a Post</h1>cHa
 
 <h4>New Post</h4>
 <hr />
@@ -38,12 +38,6 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ReadyStatus" class="control-label"></label>
-                <select asp-for="ReadyStatus" asp-items="@Html.GetEnumSelectList<ReadyStatus>()" class="form-control"></select>
-                <span asp-validation-for="ReadyStatus" class="text-danger"></span>
-            </div>
-
             <div class="form-group mb-3">
                 <label asp-for="Image" class="control-label"></label>
                 <input type="file" asp-for="Image" class="form-control-file">
@@ -53,73 +47,54 @@
                 <label for="formFile" class="form-label">Default file input example</label>
                 <input class="form-control" type="file" id="formFile">
             </div>
-            @*<div class="form-group pb-10">
-                    <div class="row mb-sm-2">
-                        <div class="col">
-                            <label class="control-label">Manage Tags</label>
-                        </div>
+
+            @*===== This will be reserved for the new Tags section ======*@
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label">Manage Tags</label>
                     </div>
-                    <div class=" row mb-sm-2 ">
-                        <div class="col">
-                            <div class="row">
-                                <input type="text" class="form-control" id="TagEntry" placeholder="Enter Tag" />
-                            </div>
-                            <div class="row mb-sm-2">
-                                <div class="col">
-                                    <button name="AddTag" button type="button" class="btn btn-primary btn-sm m-2">Add</button>
-                                </div>
-                                <div class="col">
-                                    <button name="DeleteTag" button type="button" class="btn btn-primary btn-sm m-2">Delete</button>
-                                </div>
+                </div>
+                <div class="row">
+                    @*Col 1: Input and the two buttons*@
+                    <div class="col-6 d-block ">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input id="tagEntry" type="text" class="form-control" />
                             </div>
                         </div>
-                        <div class="col d-grid gap-2">
-                            <select button class="btn-block btn btn-primary btn-group-vertical " type="button" name="TagValues" id="TagList" multiple></select>
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark btn-block">Add</button>
+                            </div>
+                            <div class="col">
+                                <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark btn-block">Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>*@
+                    @*col 2: Select Elements*@
+                    <div class="col-6">
+                        <select name="TagValues" id="TagList" multiple>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReadyStatus" class="control-label"></label>
+                <select asp-for="ReadyStatus" asp-items="@Html.GetEnumSelectList<ReadyStatus>()" class="form-control"></select>
+                <span asp-validation-for="ReadyStatus" class="text-danger"></span>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
 
             <div class="form-group gap-md-5">
                 <button type="submit" value="Create" class="btn btn-block btn-sm btn-dark"></button>
             </div>
         </form>
     </div>
-</div>
-
-@*===== This will be reserved for the new Tags section ======*@
-<div class="form-group">
-    <div class="row">
-        <div class="col">
-            <label class="control-label">Manage Tags</label>
-        </div>
-    </div>
-    <div class="row">
-        @*Col 1: Input and the two buttons*@
-        <div class="col">
-            <div class="row mb-2">
-                <div class="col">
-                    <input id="tagEntry" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark btn-block">Add</button>
-                </div>
-                <div class="col">
-                    <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark btn-block">Delete</button>
-                </div>
-            </div>
-        </div>
-        @*col 2: Select Elements*@
-        <div class="col">
-            <select name="TagValues" id="TagList" multiple>
-            </select>
-        </div>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts{
@@ -177,4 +152,12 @@
         }
         return true;
     }
+
+    // Submit Event fires off event --> Do something so that the options are selected when the form submits
+    $("form").on("submit", function () {
+
+        // select all of the options
+        $("#TagList option").prop("selected", "selected");
+
+    });
 </script>

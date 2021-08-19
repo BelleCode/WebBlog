@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBlog.Data;
 using WebBlog.Models;
+using WebBlog.Services;
 using WebBlog.Services.Iterfaces;
 
 namespace WebBlog.Controllers
@@ -16,12 +17,14 @@ namespace WebBlog.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ISlugService _slugService;
         private readonly IImageService _imageService;
+        private readonly SearchService _searchService;
 
-        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService)
+        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, SearchService searchService)
         {
             _context = context;
             _slugService = slugService;
             _imageService = imageService;
+            _searchService = searchService;
         }
 
         private Blog f(Post p)
@@ -30,10 +33,11 @@ namespace WebBlog.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetPostsWithTags(string text)
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Blog).Include(p => p.BlogUser);
-            return View(await _context.Posts.ToListAsync());
+            // Get Posts with a specific tag
+            var postsWithTag = _context.Posts.Where(p => p.Tags.Any(t => t.Text == text));
+            return View("Index", postsWithTag);
         }
 
         // GET: Posts/Details/Blog Posts Index
@@ -67,7 +71,7 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,ReadyStatus,Image")] Post post, List<string> tagValues)
+        public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,ReadyStatus,Image")] Post post, List<string> TagValues)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +85,7 @@ namespace WebBlog.Controllers
                 {
                     ModelState.AddModelError("Title", "The Title you have provided cannot be used as it results in a duplicate slug.");
                     //Add a Model State error and return the user back to the Create View
-                    ViewData["TagValues"] = string.Join(",", tagValues);
+                    ViewData["TagValues"] = string.Join(",", TagValues);
                     return View(post);
                 }
                 post.Slug = slug;
