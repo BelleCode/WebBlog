@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebBlog.Enums;
 using X.PagedList;
 using WebBlog.Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebBlog.Controllers
 {
@@ -140,13 +141,15 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,ReadyStatus,Image")] Post post, List<string> TagValues)
+        public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,ReadyStatus,Image")] Post post, List<string> tagValues)
         {
             if (ModelState.IsValid)
             {
-                // post.Created = DateTime.Now;
-                // post.ImageData = await _imageService.EncodeImageAsync(post.Image);
-                // post.ImageType = _imageService.ContentType(post.Image);
+                post.Created = DateTime.Now;
+
+                // Get the author ID to set it against the bloguser (author of tag and blog)
+                var authorId = _userManager.GetUserId(User);
+                post.BlogUserId = authorId;
 
                 //Create the slug and determine if it is unique
                 var slug = _slugService.UrlFriendly(post.Title);
@@ -157,11 +160,28 @@ namespace WebBlog.Controllers
                     //Add a Model State error and return the user back to the Create View
                     ModelState.AddModelError("", "There was an error related to the title...");
                     ViewData["BLogId"] = new SelectList(_context.Blogs, "Id", "Description", post.BlogId);
-                    ViewData["TagValues"] = string.Join(",", TagValues);
+                    ViewData["TagValues"] = string.Join(",", tagValues);
                     return View(post);
                 }
 
                 post.Slug = slug;
+
+                // How to loop over the incoming list of Tags
+                foreach (var tagText in tagValues)
+                {
+                    post.Tags.Add(new Tag()
+                    {
+                        PostId = post.Id,
+                        BlogUserId = authorId,
+                        Text = tagText
+                    });
+                    //_context.Add(new Tag()
+                    //{
+                    //    PostId = post.Id,
+                    //    BlogUserId = authorId,
+                    //    Text = tagText,
+                    //});
+                }
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -195,7 +215,7 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Created, BlogId,Title,Abstract,Content, Image, ImageType, ImageData, Slug")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Created, BlogId,Title,Abstract,Content, Image, ImageType, ImageData, Slug")] Post post, List<string> tagValues)
         {
             if (id != post.Id)
             {
