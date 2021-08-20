@@ -36,20 +36,68 @@ namespace WebBlog.Controllers
         public async Task<IActionResult> GetPostsWithTags(string text)
         {
             // Get Posts with a specific tag
-            var postsWithTag = _context.Posts.Where(p => p.Tags.Any(t => t.Text == text));
-            return View("Index", postsWithTag);
+            var getPostsWithTags = _context.Posts.Where(p => p.Tags.Any(t => t.Text == text));
+            return View("Index", getPostsWithTags);
         }
 
         // GET: Posts/Details/Blog Posts Index
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> BlogPostIndex(int? blogId)
         {
-            if (id == null)
+            if (blogId == null)
             {
                 return NotFound();
             }
 
             var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Where(p => p.BlogId == blogId && p.ReadyStatus == Enums.ReadyStatus.ProductionReady)
+                .ToListAsync();
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(post);
+        }
+
+        // GET: Posts
+        public async Task<IActionResult> PostIndex(int? blogId)
+        {
+            var productionReadyPosts = await _context.Posts
+                .Where(p => p.BlogId == blogId && p.ReadyStatus == Enums.ReadyStatus.ProductionReady)
+                .ToListAsync();
+
+            return View(productionReadyPosts);
+        }
+
+        public IActionResult SearchIndex(string searchStr)
+        {
+            var posts = _searchService.ContentSearch(searchStr);
+            return View("BlogPostIndex", posts);
+        }
+
+        // Only show posts that ADMIN has access to
+        public async Task<IActionResult> PostsIndexAdmin()
+        {
+            var applicationDbContext = _context.Posts.Include(p => p.Blog);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> PostDetails(string slug)
+        {
+            // check if null or empty
+            if (string.IsNullOrEmpty(slug))
+            {
+                return NotFound();
+            }
+
+            var post = await _context.Posts
+                .Include(p => p.Blog)
+                .Include(p => p.Comments.Where(p => p.Deleted == null))
+                .ThenInclude(c => c.BlogUser)
+                .Include(p => p.Tags)
+                .FirstOrDefaultAsync(p => p.Slug == slug);
+
             if (post == null)
             {
                 return NotFound();
@@ -75,21 +123,24 @@ namespace WebBlog.Controllers
         {
             if (ModelState.IsValid)
             {
-                post.Created = DateTime.Now;
-                post.ImageData = await _imageService.EncodeImageAsync(post.Image);
-                post.ImageType = _imageService.ContentType(post.Image);
+                // post.Created = DateTime.Now;
+                // post.ImageData = await _imageService.EncodeImageAsync(post.Image);
+                // post.ImageType = _imageService.ContentType(post.Image);
 
                 //Create the slug and determine if it is unique
                 var slug = _slugService.UrlFriendly(post.Title);
+
                 if (!_slugService.SlugIsUnique(slug))
                 {
                     ModelState.AddModelError("Title", "The Title you have provided cannot be used as it results in a duplicate slug.");
                     //Add a Model State error and return the user back to the Create View
+                    ModelState.AddModelError("", "There was an error related to the title...");
+                    ViewData["BLogId"] = new SelectList(_context.Blogs, "Id", "Description", post.BlogId);
                     ViewData["TagValues"] = string.Join(",", TagValues);
                     return View(post);
                 }
-                post.Slug = slug;
 
+                post.Slug = slug;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -149,7 +200,7 @@ namespace WebBlog.Controllers
                             //I have determined that the Title results in a duplicate Slug...
                             ModelState.AddModelError("Title", "The Title you entered cannot be used please try again");
                             ModelState.AddModelError("", "There was an error related to the Title...");
-                            //ViewData["TagValues"] = string.Join(",", tagValues);
+                            //ViewData["TagValues"] = string.Join(",", TagValues);
                             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name", post.BlogId);
                             return View(post);
                         }
