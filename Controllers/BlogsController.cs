@@ -37,9 +37,9 @@ namespace WebBlog.Controllers
             var pageNumber = page ?? 1;
             var pageSize = 4;
 
-            var blogs = _context.Blogs.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+            var blogs = await _context.Blogs.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
 
-            return View(await _context.Blogs.Include(b => b.BlogUser).ToListAsync());
+            return View(blogs);
         }
 
         // GET: Blogs/Details/5
