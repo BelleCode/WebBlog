@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using WebBlog.Enums;
 using X.PagedList;
+using WebBlog.Services;
 
 namespace WebBlog.Controllers
 {
@@ -20,12 +21,14 @@ namespace WebBlog.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IImageService _imageService;
         private readonly UserManager<BlogUser> _userManager;
+        private readonly BlogSearchService _blogSearchService;
 
-        public BlogsController(ApplicationDbContext context, IImageService imageService, UserManager<BlogUser> userManager)
+        public BlogsController(ApplicationDbContext context, IImageService imageService, UserManager<BlogUser> userManager, BlogSearchService blogSearchService)
         {
             _context = context;
             _imageService = imageService;
             _userManager = userManager;
+            _blogSearchService = blogSearchService;
         }
 
         // GET: Blogs

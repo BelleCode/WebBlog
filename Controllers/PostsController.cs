@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MailKit.Search;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBlog.Data;
 using WebBlog.Models;
-using WebBlog.Services;
 using WebBlog.Services.Iterfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using WebBlog.Enums;
 using X.PagedList;
+using WebBlog.Services;
 
 namespace WebBlog.Controllers
 {
@@ -23,12 +24,13 @@ namespace WebBlog.Controllers
         private readonly UserManager<BlogUser> _userManager;
         private readonly BlogSearchService _blogSearchService;
 
-        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, BlogSearchService blogSearchService)
+        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, BlogSearchService blogSearchService, UserManager<BlogUser> userManager)
         {
             _context = context;
             _slugService = slugService;
             _imageService = imageService;
             _blogSearchService = blogSearchService;
+            _userManager = userManager;
         }
 
         private Blog f(Post p)
@@ -37,7 +39,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> GetPostsWithTags(string text)
+        public IActionResult GetPostsWithTags(string text)
         {
             // Get Posts with a specific tag
             var getPostsWithTags = _context.Posts.Where(p => p.Tags.Any(t => t.Text == text));
@@ -45,11 +47,21 @@ namespace WebBlog.Controllers
         }
 
         // GET: Posts/Details/Blog Posts Index
-        public async Task<IActionResult> BlogPostIndex(int? blogId)
+        public async Task<IActionResult> Index(int? blogId, int? page)
         {
+            var pageNumber = page ?? 1;
+            var pageSize = 4;
+            // Show me every post
+
             if (blogId == null)
             {
-                return NotFound();
+                //This is the original code that returns a 404
+                //return NotFound();
+                //return View(_context.Posts.ToList());
+                // using Null coalecing operator
+                var posts = await _context.Posts.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+
+                return View(posts);
             }
 
             var post = await _context.Posts
