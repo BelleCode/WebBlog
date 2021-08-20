@@ -19,16 +19,16 @@
             <h2 class="heading">
                 Blog Topics
             </h2>
-            <div class="intro">
-                My interests in tech range from developing applications to over seeing the full software development cycle. You'll find various blog topics and posts pertaining to those topics and my learnings and experiences on here.'
+            <div class="intro mb-2">
+                My interests in tech range from developing applications to over seeing the full software development cycle. You'll find various blog topics and posts pertaining to those topics and my learnings and experiences on here.
             </div>
-            <div class="single-form-max-width pt-3 mx-auto">
-                <form asp-action="SearchIndex" asp-controller="Blogs" placeholder="Search Term">
-                    <div class="input-group-append">
-                        <button class="btn btn-warning btn-block btn-sm" type="submit">
-                            search
-                        </button>
-                    </div>
+
+            <div class="app-search-box col">
+                <form class="app-search-form mb-2" asp-action="SearchIndex" asp-controller="Blogs">
+                    <input type="text" placeholder="Search..." name="search" class="form-control search-input">
+                    <button type="submit" class="btn search-btn btn-primary" value="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </form>
             </div>
         </div><!--//container-->

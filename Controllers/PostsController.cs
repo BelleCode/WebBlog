@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Search;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +20,15 @@ namespace WebBlog.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ISlugService _slugService;
         private readonly IImageService _imageService;
-        private readonly SearchService _searchService;
+        private readonly UserManager<BlogUser> _userManager;
+        private readonly BlogSearchService _blogSearchService;
 
-        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, SearchService searchService)
+        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, BlogSearchService blogSearchService)
         {
             _context = context;
             _slugService = slugService;
             _imageService = imageService;
-            _searchService = searchService;
+            _blogSearchService = blogSearchService;
         }
 
         private Blog f(Post p)
@@ -79,25 +81,7 @@ namespace WebBlog.Controllers
             var pageNumber = page ?? 1;
             var pageSize = 5;
 
-            var posts = _context.Posts.Where(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady).AsQueryable();
-
-            if (searchTerm != null)
-            {
-                //Make the search string lowercase
-                searchTerm = searchTerm.ToLower();
-
-                posts = posts.Where(p =>
-                   p.Title.ToLower().Contains(searchTerm) ||
-                   p.Abstract.ToLower().Contains(searchTerm) ||
-                   p.Content.ToLower().Contains(searchTerm) ||
-                   p.Comments.Any(c => c.Body.ToLower().Contains(searchTerm) ||
-                                       c.ModeratedBody.ToLower().Contains(searchTerm) ||
-                                       c.BlogUser.FirstName.ToLower().Contains(searchTerm) ||
-                                       c.BlogUser.LastName.ToLower().Contains(searchTerm) ||
-                                       c.BlogUser.Email.ToLower().Contains(searchTerm)));
-            }
-
-            posts = posts.OrderByDescending(p => p.Created);
+            var posts = _blogSearchService.ContentSearch(searchTerm);
             return View(await posts.ToPagedListAsync(pageNumber, pageSize));
         }
 

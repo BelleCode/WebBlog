@@ -8,11 +8,11 @@ using WebBlog.Models;
 
 namespace WebBlog.Services
 {
-    public class SearchService
+    public class BlogSearchService
     {
         private readonly ApplicationDbContext _context;
 
-        public SearchService(ApplicationDbContext context)
+        public BlogSearchService(ApplicationDbContext context)
         {
             _context = context;
         }

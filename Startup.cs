@@ -41,12 +41,18 @@ namespace WebBlog
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // Register my custom DataService Class
+            services.AddScoped<BasicSeedService>();
+            services.AddScoped<BlogSearchService>();
+
             //Register a preconfigured instance of the MailSettings Class
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddScoped<IBlogEmailSender, EmailService>();
 
             // Register the Basic Slug Service class as a service
-            services.AddTransient<BasicSeedService>();
+            services.AddTransient<BasicSlugService>();
+            //Register the Basic Slug Service
+            services.AddScoped<ISlugService, BasicSlugService>();
 
             // Register the SeedService as a Transient
             services.AddScoped<BasicSeedService>();
@@ -56,9 +62,6 @@ namespace WebBlog
             services.AddTransient<IImageService, BasicImageService>();
             //else
             //services.AddTransient<IImageService, AdvancedImageService>();
-
-            //Register the Basic Slug Service
-            services.AddScoped<ISlugService, BasicSlugService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
