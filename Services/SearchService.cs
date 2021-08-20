@@ -17,25 +17,25 @@ namespace WebBlog.Services
             _context = context;
         }
 
-        public IQueryable<Post> ContentSearch(string searchStr)
+        public IQueryable<Post> ContentSearch(string searchTerm)
         {
             var posts = _context.Posts.Where(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady);
 
-            if (!string.IsNullOrEmpty(searchStr))
+            if (!string.IsNullOrEmpty(searchTerm))
             {
                 //Make the search string lowercase
-                searchStr = searchStr.ToLower();
+                searchTerm = searchTerm.ToLower();
 
                 posts = posts.Where(p =>
-                   p.Title.ToLower().Contains(searchStr) ||
-                   p.Abstract.ToLower().Contains(searchStr) ||
-                   p.Content.ToLower().Contains(searchStr) ||
+                   p.Title.ToLower().Contains(searchTerm) ||
+                   p.Abstract.ToLower().Contains(searchTerm) ||
+                   p.Content.ToLower().Contains(searchTerm) ||
                    p.Comments.Any(c =>
-                        c.Body.ToLower().Contains(searchStr) ||
-                        c.ModeratedBody.ToLower().Contains(searchStr) ||
-                        c.BlogUser.FirstName.ToLower().Contains(searchStr) ||
-                        c.BlogUser.LastName.ToLower().Contains(searchStr) ||
-                        c.BlogUser.Email.ToLower().Contains(searchStr)));
+                        c.Body.ToLower().Contains(searchTerm) ||
+                        c.ModeratedBody.ToLower().Contains(searchTerm) ||
+                        c.BlogUser.FirstName.ToLower().Contains(searchTerm) ||
+                        c.BlogUser.LastName.ToLower().Contains(searchTerm) ||
+                        c.BlogUser.Email.ToLower().Contains(searchTerm)));
             }
             return posts.OrderByDescending(p => p.Created);
         }

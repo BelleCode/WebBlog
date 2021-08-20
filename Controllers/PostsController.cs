@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Search;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WebBlog.Data;
 using WebBlog.Models;
 using WebBlog.Services;
 using WebBlog.Services.Iterfaces;
+using X.PagedList;
 
 namespace WebBlog.Controllers
 {
@@ -70,10 +72,33 @@ namespace WebBlog.Controllers
             return View(productionReadyPosts);
         }
 
-        public IActionResult SearchIndex(string searchStr)
+        public async Task<IActionResult> SearchIndexAsync(int? page, string searchTerm)
         {
-            var posts = _searchService.ContentSearch(searchStr);
-            return View("BlogPostIndex", posts);
+            ViewData["SearchTerm"] = searchTerm;
+
+            var pageNumber = page ?? 1;
+            var pageSize = 5;
+
+            var posts = _context.Posts.Where(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady).AsQueryable();
+
+            if (searchTerm != null)
+            {
+                //Make the search string lowercase
+                searchTerm = searchTerm.ToLower();
+
+                posts = posts.Where(p =>
+                   p.Title.ToLower().Contains(searchTerm) ||
+                   p.Abstract.ToLower().Contains(searchTerm) ||
+                   p.Content.ToLower().Contains(searchTerm) ||
+                   p.Comments.Any(c => c.Body.ToLower().Contains(searchTerm) ||
+                                       c.ModeratedBody.ToLower().Contains(searchTerm) ||
+                                       c.BlogUser.FirstName.ToLower().Contains(searchTerm) ||
+                                       c.BlogUser.LastName.ToLower().Contains(searchTerm) ||
+                                       c.BlogUser.Email.ToLower().Contains(searchTerm)));
+            }
+
+            posts = posts.OrderByDescending(p => p.Created);
+            return View(await posts.ToPagedListAsync(pageNumber, pageSize));
         }
 
         // Only show posts that ADMIN has access to

@@ -504,3 +504,4 @@ C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\JetBrains.Annotations.dll
 C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.dll
 C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll
 C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.Web.Common.dll
+C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\SearchIndex.cshtml.g.cs
