@@ -84,12 +84,18 @@ namespace WebBlog
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
+              {
+                  // Allowing for Slug to be used instead in URL
+                  endpoints.MapControllerRoute(
+                      name: "SlugRoute",
+                      pattern: "BlogPosts/UrlFriendly/{slug}",
+                      defaults: new { controller = "Posts", action = "Details" });
+
+                  endpoints.MapControllerRoute(
+                      name: "default",
+                      pattern: "{controller=Home}/{action=Index}/{id?}");
+                  endpoints.MapRazorPages();
+              });
         }
     }
 }
