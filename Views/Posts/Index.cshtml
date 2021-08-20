@@ -1,6 +1,11 @@
-﻿@using WebBlog.Services.Iterfaces
-@model IEnumerable<WebBlog.Models.Post>
+﻿@using WebBlog.Models
+@using WebBlog.Services.Iterfaces
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<Post>
 @inject IImageService ImageService
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -17,26 +22,25 @@
                 Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReadyStatus)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ReadyStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BlogId)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BlogId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Abstract)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Abstract)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Created)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Updated)*@
-                Last Updated
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Updated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Slug)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Slug)
             </th>
             <th></th>
         </tr>
@@ -78,3 +82,43 @@
         }
     </tbody>
 </table>
+
+<!--//main-wrapper-->
+@*==== Add Paging Controls Here ====*@
+
+<div class=" =" row"">
+    <div class="col h3">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+         new PagedListRenderOptions
+         {
+             LiElementClasses = new string[] { "page-item" },
+             PageClasses = new string[] { "page-link" }
+         });
+    </div>
+</div>
+
+@*===== Subscription Collecting Email ======*@
+
+<section class="cta-section theme-bg-light py-5">
+    <div class="container text-center single-col-max-width">
+        <h2 class="heading">DevBlog - A Blog Template Made For Developers</h2>
+        <div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+        <div class="single-form-max-width pt-3 mx-auto">
+            <form class="signup-form row g-2 g-lg-2 align-items-center">
+                <div class="col-12 col-md-9">
+                    <label class="sr-only" for="semail">Your email</label>
+                    <input type="email" id="semail" name="semail1" class="form-control me-md-1 semail" placeholder="Enter email">
+                </div>
+                <div class="col-12 col-md-2">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </div>
+            </form><!--//signup-form-->
+        </div><!--//single-form-max-width-->
+    </div><!--//container-->
+</section>
