@@ -6,18 +6,18 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
-<h1>Create a Post</h1>cHa
+<h1>Create a Post</h1>
 
 <h4>New Post</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row md-flex">
+    <div class="col mb-3">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>
-                <select asp-for="BlogId" class="form-control" asp-items="ViewBag.BlogId"></select>
+                <select asp-for="BlogId" class="form-select" asp-items="ViewBag.BlogId"></select>
             </div>
 
             <div class="form-group">
@@ -38,14 +38,17 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
+            @*<div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input type="file" asp-for="Image" class="form-control-file">
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>*@
+
             <div class="form-group mb-3">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control-file">
+                <label asp-for="Image" for="formFile" class="form-label">Choose your Image</label>
+                <input class="form-control" type="file" asp-for="Image" />
+                @*To let user know there's a wrong type of file/size provided*@
                 <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile">
             </div>
 
             @*===== This will be reserved for the new Tags section ======*@
@@ -55,45 +58,48 @@
                         <label class="control-label">Manage Tags</label>
                     </div>
                 </div>
+
                 <div class="row">
                     @*Col 1: Input and the two buttons*@
-                    <div class="col-6 d-block ">
+                    <div class="col">
                         <div class="row mb-2">
                             <div class="col">
                                 <input id="tagEntry" type="text" class="form-control" />
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row gap-2">
                             <div class="col">
-                                <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark btn-block">Add</button>
+                                <button type="button" onclick="AddTag()" class="btn btn-sm btn-dark w-100">Add</button>
                             </div>
                             <div class="col">
-                                <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark btn-block">Delete</button>
+                                <button type="button" onclick="DeleteTag()" class="btn btn-sm btn-dark w-100">Delete</button>
                             </div>
                         </div>
                     </div>
+
                     @*col 2: Select Elements*@
-                    <div class="col-6">
-                        <select name="TagValues" id="TagList" multiple>
-                        </select>
+
+                    <div class="col">
+                        <select class="form-select" size="3" name="TagValues" id="TagList" multiple aria-label="multiple select example"></select>
                     </div>
                 </div>
             </div>
 
+            @*===== This will be revserved for the new Ready Status ======*@
             <div class="form-group">
                 <label asp-for="ReadyStatus" class="control-label"></label>
-                <select asp-for="ReadyStatus" asp-items="@Html.GetEnumSelectList<ReadyStatus>()" class="form-control"></select>
+                <select asp-for="ReadyStatus" asp-items="@Html.GetEnumSelectList<ReadyStatus>()" class="form-select"></select>
                 <span asp-validation-for="ReadyStatus" class="text-danger"></span>
             </div>
 
-            <div>
-                <a asp-action="Index">Back to List</a>
-            </div>
-
-            <div class="form-group gap-md-5">
-                <button type="submit" value="Create" class="btn btn-block btn-sm btn-dark"></button>
+            <div class="form-group">
+                <button type="submit" value="Create" class="btn btn-sm btn-dark w-100">create</button>
             </div>
         </form>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
