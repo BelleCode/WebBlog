@@ -46,6 +46,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -77,6 +78,7 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Adminstrator")]
         public async Task<IActionResult> Create([Bind("Id, Name, Description, Image")] Blog blog)
         {
             if (ModelState.IsValid)
@@ -94,6 +96,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [Authorize(Roles = "Adminstrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +117,7 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Adminstrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id, Name, Description, Image, ImageData, ImageType")] Blog blog)
         {
             if (id != blog.Id)
@@ -154,6 +158,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs/Delete/5
+        [Authorize(Roles = "Adminstrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -172,6 +177,7 @@ namespace WebBlog.Controllers
         }
 
         // POST: Blogs/Delete/5
+        [Authorize(Roles = "Adminstrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

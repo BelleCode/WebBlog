@@ -146,6 +146,8 @@ namespace WebBlog.Controllers
             if (ModelState.IsValid)
             {
                 post.Created = DateTime.Now;
+                post.ImageData = await _imageService.EncodeImageAsync(post.Image);
+                post.ImageType = _imageService.ContentType(post.Image);
 
                 // Get the author ID to set it against the bloguser (author of tag and blog)
                 var authorId = _userManager.GetUserId(User);

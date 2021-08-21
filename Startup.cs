@@ -54,9 +54,6 @@ namespace WebBlog
             //Register the Basic Slug Service
             services.AddScoped<ISlugService, BasicSlugService>();
 
-            // Register the SeedService as a Transient
-            services.AddScoped<BasicSeedService>();
-
             //Register the concrete Basic Image Service class to be used with the IImage Service Interface
             //If(I am in development)
             services.AddTransient<IImageService, BasicImageService>();

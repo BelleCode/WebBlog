@@ -5,8 +5,9 @@
 @using X.PagedList
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
+@using WebBlog.Services.Iterfaces
 
-@inject BasicImageService imageService
+@inject IImageService imageService
 @inject UserManager<BlogUser> userManager
 
 @model IPagedList<Post>
@@ -19,7 +20,7 @@
                 <div class="card-body text-center">
                     <div class="bg-warning">
                         <hr class="card-hr" />
-                        <h5 class="card-title">@post.Title</h5>That
+                        <h5 class="card-title">@post.Title</h5>
                         <hr class="card-hr" />
                     </div>
                     <div>
@@ -28,7 +29,7 @@
 
                     <br />
                     <div class="text-center">
-                        <a class="btn btn-dark btn-sm btn-block mb-2" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read More</a>
+                        <a class="btn btn-dark btn-sm btn-block mb-2" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug">Read More</a>
                     </div>
                 </div>
                 <img class="card-img-bottom" src="@imageService.DecodeImage(post.ImageData,  post.Content)" />

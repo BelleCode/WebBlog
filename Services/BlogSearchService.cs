@@ -30,6 +30,9 @@ namespace WebBlog.Services
                    p.Title.ToLower().Contains(searchTerm) ||
                    p.Abstract.ToLower().Contains(searchTerm) ||
                    p.Content.ToLower().Contains(searchTerm) ||
+                   p.Blog.Name.ToLower().Contains(searchTerm) ||
+                   p.Blog.Description.ToLower().Contains(searchTerm) ||
+                   p.Tags.Any(t => t.Text.ToLower().Contains(searchTerm)) ||
                    p.Comments.Any(c =>
                         c.Body.ToLower().Contains(searchTerm) ||
                         c.ModeratedBody.ToLower().Contains(searchTerm) ||
