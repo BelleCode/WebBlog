@@ -88,12 +88,13 @@ namespace WebBlog
 
             app.UseEndpoints(endpoints =>
               {
-                  // Allowing for Slug to be used instead in URL
+                  // Allowing for Slug to be used instead in URL for Posts
                   endpoints.MapControllerRoute(
                       name: "SlugRoute",
                       pattern: "BlogPosts/UrlFriendly/{slug}",
-                      defaults: new { controller = "Posts", action = "Details" });
+                      defaults: new { controller = "Posts", action = "PostDetails" });
 
+                  // For Blogs
                   endpoints.MapControllerRoute(
                       name: "default",
                       pattern: "{controller=Home}/{action=Index}/{id?}");

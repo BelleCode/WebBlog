@@ -478,7 +478,6 @@ C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Home\Index.csht
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\Create.cshtml.g.cs
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\Delete.cshtml.g.cs
-C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\Details.cshtml.g.cs
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\Edit.cshtml.g.cs
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\Index.cshtml.g.cs
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
@@ -505,3 +504,4 @@ C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.dll
 C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll
 C:\Users\xbell\source\repos\WebBlog\bin\Debug\net5.0\X.PagedList.Web.Common.dll
 C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\SearchIndex.cshtml.g.cs
+C:\Users\xbell\source\repos\WebBlog\obj\Debug\net5.0\Razor\Views\Posts\PostDetails.cshtml.g.cs
