@@ -8,6 +8,7 @@ namespace WebBlog.Enums
     public enum BlogRole
     {
         Administrator,
-        Moderator
+        Moderator,
+        Member,
     }
 }
