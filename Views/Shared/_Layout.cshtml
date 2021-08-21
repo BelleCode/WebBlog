@@ -1,7 +1,5 @@
 ﻿<!DOCTYPE html>
 
-
-
 <html lang="en">
 <head>
     <!-- Plugin CSS -->
@@ -80,18 +78,17 @@
 
                 <ul class="navbar-nav flex-column text-start">
                     <li class="nav-item">
-                        <a class="nav-link active" asp-action="Index" asp-controller="Home">
+                        <a class="nav-link" asp-action="Index" asp-controller="Home">
                             <i class="fas fa-home fa-fw me-2">
-                            </i>Home
+                            </i>Home - Latest Posts
                             <span class="sr-only">
-                                (current)
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-action="Index" asp-controller="Blogs">
                             <i class="fas fa-lightbulb fa-fw me-2">
-                            </i> Blog Ideas
+                            </i> Blog Topics
                         </a>
                     </li>
                     <li class="nav-item">
@@ -176,12 +173,8 @@
     <script src="~/js/blog.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-
     <!-- Sweet Alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
