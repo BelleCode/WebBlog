@@ -7,7 +7,7 @@ using WebBlog.Models;
 using WebBlog.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSharp___WebBlog.Services
+namespace WebBlog.Services
 {
     public class PostService
     {
