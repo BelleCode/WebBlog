@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 
+
+
 <html lang="en">
 <head>
     <!-- Plugin CSS -->
@@ -10,7 +12,12 @@
     <link href="~/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/theme.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <!--JQuery File-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
 </head>
+
 <body>
     <header class="header text-center">
         <h1 class="blog-name pt-lg-4 mb-0"><a class="no-text-decoration" href="index.html">Belle's Blog</a></h1>
@@ -173,10 +180,7 @@
     <!-- Sweet Alert 2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!--JQuery File-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
+
 
 
     @await RenderSectionAsync("Scripts", required: false)
