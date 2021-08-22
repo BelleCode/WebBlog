@@ -1,5 +1,5 @@
 ﻿@model WebBlog.Models.Blog
-
+@using WebBlog.Enums
 @{
     ViewData["Title"] = "Create";
 }
@@ -27,12 +27,12 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            <<div class="form-group mb-3">
-                <label asp-for="ImageData" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control-file" accept=".jpg, .png, .jpeg, .bmp, .tiff, .gif" />
-                <span asp-validation-for="ImageData" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label asp-for="Image" for="formFile" class="form-label">Choose your Image</label>
+                <input class="form-control" type="file" asp-for="Image" />
+                @*To let user know there's a wrong type of file/size provided*@
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
