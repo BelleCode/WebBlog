@@ -18,20 +18,11 @@
     @*===== Software Development -- More than just Code =====*@
     <section class="cta-section theme-bg-light py-5">
         <div class="container text-center single-col-max-width">
-            <h2 class="heading">
-                Blog Topics
-            </h2>
-            <div class="intro mb-2">
+            <h6 class="heading">
+                Welcome to Belle Coder's Main Blog Page
+            </h6>
+            <div class="input-group mb-2 theme-bg-light">
                 My interests in tech range from developing applications to over seeing the full software development cycle. You'll find various blog topics and posts pertaining to those topics and my learnings and experiences on here.
-            </div>
-
-            <div class="app-search-box col pt-3 mx-auto">
-                <form class="app-search-form row g-2 g-lg-2 align-items-center" asp-action="SearchIndex" asp-controller="Posts">
-                    <input type="text" placeholder="Search..." name="search" class="form-control search-input">
-                    <button type="submit" class="btn search-btn btn-primary" value="Search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
             </div>
         </div><!--//container-->
     </section>
@@ -39,6 +30,9 @@
     @*===== Blog Topics ======*@
     <section class="blog-list px-3 py-5 p-md-5">
         <div class="container">
+            <h4 class="heading">
+                Latest Posts:
+            </h4>
             <div class="row">
                 @foreach (var post in await PostService.GetPosts())
                 {
@@ -46,7 +40,7 @@
                     {
                         <div class="col-md-4 mb-3">
                             <div class="card blog-post-card">
-                                <img class="card-img-top img-fluid" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt="image">
+                                <img class="card-img-top img-fluid img-thumbnail" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt="image">
                                 <div class="card-body">
                                     <h5 class="card-title"><a class="theme-link" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug">@post.Title</a></h5>
                                     <p class="card-text">@post.Abstract</p>
@@ -77,6 +71,14 @@
                 }
             </div>
         </div>
+        <div class="app-search-box col pt-3 mx-auto">
+            <form class="app-search-form row g-2 g-lg-2 align-items-center" asp-action="SearchIndex" asp-controller="Posts">
+                <input type="text" placeholder="Search for a topic..." name="search" class="form-control search-input">
+                <button type="submit" class="btn search-btn btn-primary" value="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
     </section>
     @*===== Blog Section ======*@
 
@@ -88,7 +90,7 @@
                 <div class="item mb-5">
                     <div class="row g-3 g-xl-0">
                         <div class="col-2 col-xl-3">
-                            <img class="img-fluid post-thumb " src="@ImageService.DecodeImage(blog.ImageData, blog.ImageType)" alt="image">
+                            <img class="img-fluid post-thumb img-thumbnail" src="@ImageService.DecodeImage(blog.ImageData, blog.ImageType)" alt="image">
                         </div>
                         <div class="col">
                             <h3 class="title mb-1">
@@ -122,20 +124,22 @@
     @*==== Add Paging Controls Here ====*@
 
     <div class="row ">
-        <div class="col h3">
+        <div class="col h6 text-center">
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
         </div>
     </div>
 
     <div class="row">
-        <div class="col ">
+
+        <nav class="nav nav-justified my-5">
+
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
              new PagedListRenderOptions
              {
-                 LiElementClasses = new string[] { "page-item" },
-                 PageClasses = new string[] { "page-link" }
+                 LiElementClasses = new string[] { "page-item " },
+                 PageClasses = new string[] { "page-link " }
              })
-        </div>
+        </nav>
     </div>
 
     @*===== Subscription Collecting Email ======*@
