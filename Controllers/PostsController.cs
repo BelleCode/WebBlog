@@ -99,6 +99,7 @@ namespace WebBlog.Controllers
         }
 
         // Only show posts that ADMIN has access to
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PostsIndexAdmin()
         {
             var applicationDbContext = _context.Posts.Include(p => p.Blog);
