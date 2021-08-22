@@ -106,7 +106,7 @@
                                     5 min read
                                 </span>
                             </div>
-                            <div class="intro"><span>@blog.Description</span></div>
+                            <div class="intro"><span>@Html.Raw(blog.Description)</span></div>
                             <a class="text-link" asp-action="Details" asp-controller="Blogs" asp-route-id="@blog.Id">Read more &rarr;</a>
                         </div><!--//col-->
                     </div><!--//row-->
