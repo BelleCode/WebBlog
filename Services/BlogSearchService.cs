@@ -19,7 +19,7 @@ namespace WebBlog.Services
 
         public IQueryable<Post> ContentSearch(string searchTerm)
         {
-            var posts = _context.Posts.Where(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady);
+            var posts = _context.Posts.Where(p => p.ReadyStatus == Enums.ReadyStatus.ProductionReady).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
