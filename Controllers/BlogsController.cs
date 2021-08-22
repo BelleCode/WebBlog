@@ -45,7 +45,7 @@ namespace WebBlog.Controllers
             return View(blogs);
         }
 
-        // GET: Blogs/Details/5
+        // GET: Blogs/Details/
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
@@ -66,7 +66,7 @@ namespace WebBlog.Controllers
         }
 
         // GET: Blogs/Create
- 
+
         public IActionResult Create()
         {
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -78,7 +78,6 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-     
         public async Task<IActionResult> Create([Bind("Id, Name, Description, Image")] Blog blog)
         {
             if (ModelState.IsValid)
@@ -117,7 +116,6 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Edit(int id, [Bind("Id, Name, Description, Image, ImageData, ImageType")] Blog blog)
         {
             if (id != blog.Id)

@@ -95,7 +95,7 @@
                         <div class="col">
                             <h3 class="title mb-1">
                                 <a class="text-link" asp-action="Details" asp-controller="Blogs" asp-route-id="@blog.Id">
-                                    @blog.Name
+                                    @Html.Raw(blog.Name)
                                 </a>
                             </h3>
                             <div class="meta mb-1">
