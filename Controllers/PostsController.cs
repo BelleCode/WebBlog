@@ -47,7 +47,7 @@ namespace WebBlog.Controllers
             return View("Index", getPostsWithTags);
         }
 
-        // GET: Posts/Details/Blog Posts Index
+        // GET: Posts/Details/Blog Posts Index (Open to all? -> show Admin/Moderator options if logged in)
         public async Task<IActionResult> Index(int? blogId, int? page)
         {
             var pageNumber = page ?? 1;
@@ -217,7 +217,7 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Created, BlogId,Title,Abstract,Content, Image, ImageType, ImageData, Slug")] Post post, List<string> tagValues)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Created, BlogId,Title,Abstract,Content, Image, ImageType, ImageData, Slug, ReadyStatus")] Post post, List<string> tagValues)
         {
             if (id != post.Id)
             {

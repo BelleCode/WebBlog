@@ -40,6 +40,26 @@
         </div><!--//container-->
     </article>
 </div><!--//main-wrapper-->
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-action="Create" asp-controller="Comments" method="post">
+            @Html.Hidden("PostId", Model.Id)
+
+            <div class="form-group">
+                <label class="h2 custom-control-label font-weight-bold">Add Comment</label>
+                <textarea name="body" class="form-control" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block btn-sm">Submit</button>
+        </form>
+    }
+    else
+    {
+        <a class="btn ben-block btn-sm btn-dark" asp-area="Identity" asp-page="/Account/login">Login to Add Comments</a>
+    }
+</div>
+
 @*<dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BlogId)
