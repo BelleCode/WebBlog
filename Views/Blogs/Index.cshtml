@@ -53,13 +53,13 @@
                     @Html.Raw(blog.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => blog.Created)
+                    @Html.Raw(blog.Created)
                 </td>
                 <th>
-                    @Html.DisplayFor(model => blog.Updated)
+                    @Html.Raw(blog.Updated)
                 </th>
                 <th>
-                    @Html.DisplayFor(model => blog.Id)
+                    @Html.Raw(blog.Id)
                 </th>
                 <td>
                     <a asp-action="Edit" asp-route-id="@blog.Id">Edit</a> |
