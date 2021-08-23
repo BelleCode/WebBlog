@@ -116,10 +116,9 @@ namespace WebBlog.Controllers
 
             var post = await _context.Posts
                 .Include(p => p.Blog)
-                .Include(p => p.BlogUser)
-                .Include(p => p.Tags)
                 .Include(p => p.Comments.Where(p => p.Deleted == null))
                 .ThenInclude(c => c.BlogUser)
+                .Include(p => p.Tags)
                 .FirstOrDefaultAsync(p => p.Slug == slug);
 
             if (post == null)
