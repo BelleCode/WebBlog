@@ -37,7 +37,24 @@
                     <a class="nav-link-next nav-item nav-link rounded-right" href="#">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
                 </nav>
             </div>
-        </div><!--//container-->
+        </div>
+    </article><!--//container-->
+
+    <hr />
+    <article>
+        <div class="row">
+            <div class="col text-center font-weight-bold-bold h3">
+                Custom Post Tags
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @foreach (var tag in Model.Tags)
+                {
+                    <a asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()">#@tag.Text</a>
+                }
+            </div>
+        </div>
     </article>
 </div><!--//main-wrapper-->
 

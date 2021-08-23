@@ -19,6 +19,8 @@ function AddTag() {
         let newTag = new Option(tagEntry.value, tagEntry.value);
         document.getElementById("TagList").tagOptions[index++] = newTag;
     }
+
+    // Clear the TagEntry control
     tagEntry.value = "";
     return true;
 }

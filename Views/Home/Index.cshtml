@@ -39,7 +39,7 @@
                     if (postCount < 3)
                     {
                         <div class="col-md-4 mb-3">
-                            <div class="card blog-post-card">
+                            <div class="card blog-post-card border-dark mb-3">
                                 <img class="card-img-top img-fluid img-thumbnail" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt="image">
                                 <div class="card-body">
                                     <h5 class="card-title"><a class="theme-link" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug">@post.Title</a></h5>

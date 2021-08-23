@@ -60,7 +60,9 @@ namespace WebBlog.Controllers
                 //return NotFound();
                 //return View(_context.Posts.ToList());
                 // using Null coalecing operator
-                var posts = await _context.Posts.OrderByDescending(b => b.Created).ToPagedListAsync(pageNumber, pageSize);
+                var posts = await _context.Posts.Include(b => b.Blog)
+                    .OrderByDescending(b => b.Created)
+                    .ToPagedListAsync(pageNumber, pageSize);
 
                 return View(posts);
             }
