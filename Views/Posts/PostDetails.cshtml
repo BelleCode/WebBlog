@@ -79,82 +79,182 @@
             <p>@comment.Body</p>
 
             @if (comment.Moderated is null && comment.Deleted is null && comment.BlogUserId == userManager.GetUserId(User))
-            { 
+            {
                 <hr>
-                <button data-toggle="modal" data-target="@editModal" class="btn-sm btn-dark float-right font-weight-bold">EDIT</button>
-            }
+                <button data-bs-toggle="modal" data-bs-target=#edit-@comment.Id" class="btn-sm btn-dark float-right font-weight-bold">EDIT</button>
+                }
+            </div>
         </div>
-    </div>
-}
+        }
 
+        <div class="modal" id="moderateModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-@*===== Modals =====*@
-<div class=" modal" id="editModal">
-    <div class="modal-dialog">
-        <div class="modal-header">
-            <h4 class="modal-title">Editing Comment...</h4>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form asp-controller="Comments" asp-action="Moderate">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <input type="hidden" name="Id" id="ModerateId" />
+                            <input type="hidden" name="Slug" id="ModerateSlug" />
+                            <input type="hidden" name="AuthorId" id="ModerateAuthorId" />
+
+                            <div class="form-group">
+                                <label class="control-label">Original Comment</label>
+                                <input id="CommentBody" name="Body" class="form-control" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Moderated Comment</label>
+                                <input name="ModeratedBody" id="ModeratedBody" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Reason For Moderation</label>
+                                <select class="form-control" name="ModerationReason" id="ModerationReason" asp-items="Html.GetEnumSelectList<ModerationType>()"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-sm btn-dark btn-block" />
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        @*Modal Body*@
-        <div class="modal bg-body">
-            <form asp-action="Edit" asp-controller="Comments">
-                @Html.Hidden("Id", comment.Id)
-                <div class="form-group">
-                    <textarea name="Body" class="form-control" required>@comment.Body</textarea>
+        @section Scripts
+{
+            <script>
+                //document.getElementById("btnModerate").addEventListener("click", function() {
+                document.getElementsByName("btnModerate").forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                        //Step 1: Populate the hidden Id with the Comment Id
+                        document.getElementById("ModerateId").value =
+                            $(this).closest(".row").find("[Name='Id']").val();
+                        document.getElementById("ModerateSlug").value =
+                            $(this).closest(".row").find("[Name='Slug']").val();
+                        $("#CommentBody").val(
+                            $(this).closest(".comment").find(".comment-body").find("p").text()
+                        );
+                        $("#ModerateAuthorId").val(
+                            $(this).closest(".comment").find("input").val()
+                        );
+                    });
+                });
+            </script>
+
+        }
+
+        @*===== Modals =====*@
+        <div class=" modal" id="editModal">
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editing Comment...</h4>
                 </div>
 
-                <button class="btn-sm btn-dark border-success font-weight-bold" type="submit">SUBMIT</button>
-            </form>
+                @*Modal Body*@
+                <div class="modal bg-body">
+                    <form asp-action="Edit" asp-controller="Comments">
+                        @Html.Hidden("Id", comment.Id)
+                        @Html.Hidden("PostId", comment.PostId)
+                        <div class="form-group">
+                            <textarea name="Body" class="form-control" required>@comment.Body</textarea>
+                        </div>
+
+                        <button class="btn-sm btn-dark border-success font-weight-bold" type="submit">SUBMIT</button>
+                    </form>
+                </div>
+
+                @*Modal Footer*@
+                <div class="modal-footer">
+                    <button type="button" class="btn-sm btn-dark font-weight-bold" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
         </div>
 
-        @*Modal Footer*@
-        <div class="modal-footer">
-            <button type="button" class="btn-sm btn-dark font-weight-bold" data-dismiss="modal">CLOSE</button>
-        </div>
-    </div>
-</div>
-
-@*<dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BlogId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BlogId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Abstract)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Abstract)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
-    </dl>*@
+        @*<dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.BlogId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.BlogId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Abstract)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Abstract)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Content)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Content)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Created)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Created)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Updated)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Updated)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Slug)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Slug)
+                </dd>
+            </dl>*@<dl class="row">
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+            </dd>
+        </dl>

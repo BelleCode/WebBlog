@@ -123,18 +123,45 @@ namespace WebBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,BlogUserId,ModeratorId,Body,Created,Updated,Moderated,Deleted,ModeratedBody,ModerationType")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,BlogUser, BlogUserId,ModeratorId,Body,Created,Updated,Moderated,Deleted,ModeratedBody,ModerationType")] Comment comment)
         {
-            if (ModelState.IsValid)
+            if (id != comment.Id)
             {
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
 
-            ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", comment.BlogUserId);
-            ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Abstract", comment.PostId);
+            if (ModelState.IsValid)
+            {
+                var newComment = await _context.Comments.Include(c => c.Post).FirstOrDefaultAsync(c => c.Id == comment.Id);
+
+                try
+                {
+                    newComment.Body = comment.Body;
+                    newComment.Updated = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CommentExists(comment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction("Details", "Posts", new { slug = newComment.Post.Slug }, "commentSection");
+
+                //_context.Add(comment);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+            }
+
+            //ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", comment.BlogUserId);
+            //ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);
+            //ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Abstract", comment.PostId);
             return View(comment);
         }
 
