@@ -39,10 +39,13 @@
                     if (postCount < 3)
                     {
                         <div class="col-md-4 mb-3">
-                            <div class="card blog-post-card border-dark mb-3">
-                                <img class="card-img-top img-fluid img-thumbnail" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt="image">
+                            <div class="card blog-post-card border-dark border-5 rounded-3 mb-3">
+                                @*<img class="card-img-top img-fluid img-thumbnail" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt="image">*@
+                                <a id="imgImage" asp-action="PostDetails" asp-route-slug="@post.Slug" asp-controller="Posts" target="_blank">
+                                    <img class="card-img-top" src="@ImageService.DecodeImage(post.ImageData, post.ImageType)" alt=" @Html.DisplayFor(modelItem => post.Blog.Name)">
+                                </a>
                                 <div class="card-body">
-                                    <h5 class="card-title"><a class="theme-link" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug">@post.Title</a></h5>
+                                    <h5 class="card-title"><a class="theme-link" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug" target="_blank">@post.Title</a></h5>
                                     <p class="card-text">@post.Abstract</p>
                                     <p class="mb-0"><a class="text-link" asp-action="PostDetails" asp-controller="Posts" asp-route-slug="@post.Slug">Read more &rarr;</a></p>
                                 </div>

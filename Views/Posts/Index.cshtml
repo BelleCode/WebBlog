@@ -22,7 +22,7 @@
     <thead>
         <tr>
             <th class="col-2">
-                Image
+                Image / Go to Post
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().ReadyStatus)
@@ -87,9 +87,9 @@
                 <td>
                     @if (User.IsInRole("Administrator"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="PostDetails" asp-route-slug="@item.Slug">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="badge rounded-pill" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="badge rounded-pill" asp-action="PostDetails" asp-route-slug="@item.Slug">Details</a>
+                        <a class="badge rounded-pill" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }
                 </td>
             </tr>
