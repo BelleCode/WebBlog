@@ -56,7 +56,9 @@
         {
             <tr>
                 <td>
-                    <img class=" img-fluid" src="@ImageService.DecodeImage(item.ImageData, item.ImageType)">
+                    <a id="imgImage" asp-action="PostDetails" asp-route-slug="@item.Slug" target="_blank">
+                        <img src="@ImageService.DecodeImage(item.ImageData, item.ImageType)" height="100" width=" 100" alt=" @Html.DisplayFor(modelItem => item.Blog.Name)">
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReadyStatus)

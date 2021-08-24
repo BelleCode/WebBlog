@@ -60,10 +60,10 @@
                     @Html.DisplayFor(modelBlog => blog.Created)
                 </td>
                 <th>
-                    @Html.Raw(blog.Updated)
+                    @Html.DisplayFor(modelBlog => blog.Updated)
                 </th>
                 <th>
-                    @Html.Raw(blog.Id)
+                    @Html.DisplayFor(modelBlog => blog.Id)
                 </th>
                 <td>
                     @if (User.IsInRole("Administrator"))
